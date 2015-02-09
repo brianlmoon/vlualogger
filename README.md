@@ -7,3 +7,16 @@ cronolog process running per virtual host. I was using vlogger for a while. It w
 
 So, I wrote vlualogger. It does the job nicely. Just one process for writing log files from Apache. It writes logs out to different files for different virtual hosts. It does not use a lot of resources.
 
+## Example Apache configuration
+```
+# For each virtual host, this will create a separate directory for it's logs
+# named for the virtual host name.
+LogFormat "%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" vlualogger
+CustomLog "|/usr/local/bin/vlualogger.lua /var/log/apache2/%v/%Y%m%d-access.log" vlualogger
+```
+
+## File naming picture format.
+
+`%v` is used for the virtual host name.
+
+All other values are standard [strftime](http://www.cplusplus.com/reference/ctime/strftime/) options.
